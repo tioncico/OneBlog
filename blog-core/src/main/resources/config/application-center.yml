@@ -6,10 +6,20 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       test-while-idle: false
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://${ONEBLOG_DATASOURCE_HOST:127.0.0.1}:${ONEBLOG_DATASOURCE_PORT:3306}/${ONEBLOG_DATASOURCE_DATABASE_NAME:dblog}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false
-    username: ${ONEBLOG_DATASOURCE_USERNAME:root}
-    password: ${ONEBLOG_DATASOURCE_PASSWORD:root}
-
+    ### 从数据库数量
+    num: 2
+    master:
+      url: jdbc:mysql://${ONEBLOG_DATASOURCE_HOST:114.132.227.93}:${ONEBLOG_DATASOURCE_PORT:3300}/${ONEBLOG_DATASOURCE_DATABASE_NAME:new_blog}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false
+      username: ${ONEBLOG_DATASOURCE_USERNAME:new_blog}
+      password: ${ONEBLOG_DATASOURCE_PASSWORD:NLhZcEBS4DkpWTJf}
+    slaver1:
+      url: jdbc:mysql://${ONEBLOG_DATASOURCE_HOST:114.132.227.93}:${ONEBLOG_DATASOURCE_PORT:3300}/${ONEBLOG_DATASOURCE_DATABASE_NAME:new_blog}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false
+      username: ${ONEBLOG_DATASOURCE_USERNAME:new_blog}
+      password: ${ONEBLOG_DATASOURCE_PASSWORD:NLhZcEBS4DkpWTJf}
+    slaver2:
+      url: jdbc:mysql://${ONEBLOG_DATASOURCE_HOST:114.132.227.93}:${ONEBLOG_DATASOURCE_PORT:3300}/${ONEBLOG_DATASOURCE_DATABASE_NAME:new_blog}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false
+      username: ${ONEBLOG_DATASOURCE_USERNAME:new_blog}
+      password: ${ONEBLOG_DATASOURCE_PASSWORD:NLhZcEBS4DkpWTJf}
   ####### Redis Config #######
   redis:
     database: ${ONEBLOG_REDIS_DATABASE_INDEX:1}
@@ -18,7 +28,7 @@ spring:
     # Redis服务器连接端口
     port: ${ONEBLOG_REDIS_PORT:6379}
     # Redis服务器连接密码（默认为空）
-    password: ${ONEBLOG_REDIS_PASSWORD:123456ZHYD}
+    password: ${ONEBLOG_REDIS_PASSWORD:}
     jedis:
       pool:
         # 连接池最大连接数（使用负值表示没有限制）
@@ -68,9 +78,7 @@ spring:
 mybatis:
   type-aliases-package: com.zyd.blog.persistence.beans
   mapper-locations: classpath:/mybatis/*.xml
-  configuration:
-    default-enum-type-handler: org.apache.ibatis.type.EnumTypeHandler
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  config-location: classpath:/config/mybatis-config.xml
 # mapper
 mapper:
   mappers:
