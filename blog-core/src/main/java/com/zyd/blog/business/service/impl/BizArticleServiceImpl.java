@@ -451,13 +451,18 @@ public class BizArticleServiceImpl implements BizArticleService {
     @DBRead
     private void subquery(Map<Long, Long> lookMap, Map<Long, Long> commentMap, Map<Long, Long> loveMap, BizArticle entity) {
         // 查看的次数
-        entity.setLookCount(lookMap.get(entity.getId()).intValue());
+        if (lookMap.containsKey(entity.getId())){
+            entity.setLookCount(lookMap.get(entity.getId()).intValue());
+        }
+        if (commentMap.containsKey(entity.getId())){
+            // 评论数
+            entity.setCommentCount(commentMap.get(entity.getId()).intValue());
+        }
 
-        // 评论数
-        entity.setCommentCount(commentMap.get(entity.getId()).intValue());
-
-        // 喜欢的次数
-        entity.setLoveCount(loveMap.get(entity.getId()).intValue());
+        if (loveMap.containsKey(entity.getId())){
+            // 喜欢的次数
+            entity.setLoveCount(loveMap.get(entity.getId()).intValue());
+        }
     }
 
     @Override

@@ -126,7 +126,7 @@
         COUNT(id) as num,
         id
         FROM
-        biz_article_look t
+        biz_comment t
         WHERE
         id IN
         <foreach collection="array" item="id" index="index" open="(" close=")" separator=",">
