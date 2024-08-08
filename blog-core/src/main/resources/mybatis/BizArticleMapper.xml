@@ -101,7 +101,8 @@
 			AND
 			(
 				a.description LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%') OR
-				a.keywords LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%')
+				a.keywords LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%') OR
+				a.title LIKE CONCAT('%',#{keywords , jdbcType=VARCHAR},'%')
 			)
 		</if>
 		<if test="title != null and title != '' ">
@@ -117,7 +118,6 @@
 			<otherwise>
 				ORDER BY
 				a.top DESC,
-				a.recommended DESC,
 				a.create_time DESC
 			</otherwise>
 		</choose>

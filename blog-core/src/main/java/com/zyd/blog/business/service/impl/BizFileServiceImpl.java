@@ -8,6 +8,7 @@ import com.zyd.blog.business.service.BizFileService;
 import com.zyd.blog.business.vo.FileConditionVO;
 import com.zyd.blog.file.FileUploader;
 import com.zyd.blog.file.exception.GlobalFileException;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.BizFile;
 import com.zyd.blog.persistence.mapper.BizFileMapper;
 import com.zyd.blog.plugin.file.GlobalFileUploader;
@@ -36,6 +37,7 @@ public class BizFileServiceImpl implements BizFileService {
     private BizFileMapper shopFileMapper;
 
     @Override
+    @DBRead
     public PageInfo<File> findPageBreakByCondition(FileConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<BizFile> list = shopFileMapper.findPageBreakByCondition(vo);
@@ -46,6 +48,7 @@ public class BizFileServiceImpl implements BizFileService {
         return bean;
     }
 
+    @DBRead
     private List<File> getFiles(List<BizFile> list) {
         if (CollectionUtils.isEmpty(list)) {
             return null;
@@ -58,6 +61,7 @@ public class BizFileServiceImpl implements BizFileService {
     }
 
     @Override
+    @DBRead
     public File selectFileByPathAndUploadType(String filePath, String uploadType) {
         if (StringUtils.isEmpty(filePath)) {
             return null;
@@ -124,6 +128,7 @@ public class BizFileServiceImpl implements BizFileService {
     }
 
     @Override
+    @DBRead
     public File getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "Invalid parameter");
         BizFile entity = shopFileMapper.selectByPrimaryKey(primaryKey);
@@ -131,6 +136,7 @@ public class BizFileServiceImpl implements BizFileService {
     }
 
     @Override
+    @DBRead
     public List<File> listAll() {
         List<BizFile> list = shopFileMapper.selectAll();
 

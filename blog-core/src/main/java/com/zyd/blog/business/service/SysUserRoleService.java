@@ -2,6 +2,7 @@ package com.zyd.blog.business.service;
 
 
 import com.zyd.blog.business.entity.UserRole;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.framework.object.AbstractService;
 
 /**
@@ -21,6 +22,7 @@ public interface SysUserRoleService extends AbstractService<UserRole, Long> {
      * @param userId
      * @param roleIds
      */
+    @DBWrite
     void addUserRole(Long userId, String roleIds);
 
     /**
@@ -28,5 +30,6 @@ public interface SysUserRoleService extends AbstractService<UserRole, Long> {
      *
      * @param userId
      */
+    @DBWrite
     void removeByUserId(Long userId);
 }

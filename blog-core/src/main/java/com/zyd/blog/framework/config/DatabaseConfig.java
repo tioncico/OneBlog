@@ -1,5 +1,6 @@
 package com.zyd.blog.framework.config;
 
+
 import com.alibaba.druid.pool.DruidDataSource;
 import com.zyd.blog.framework.holder.DataSourceContextHolder;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -14,22 +15,20 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import tk.mybatis.spring.annotation.MapperScan;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author yadong.zhang (yadong.zhang0415(a)gmail.com)
- * @version 1.0
- * @website https://docs.zhyd.me
- * @date 2018/4/16 16:26
- * @since 1.0
+ * Description
+ *
+ * @author fxb
+ * @date 2018-09-03
  */
 @Configuration
-@MapperScan(basePackages = "com.zyd.blog.persistence.mapper", sqlSessionFactoryRef = "sqlSessionFactory")
-public class MybatisConfig {
+@MapperScan(basePackages = "com.zyd.blog.persistence.mapper", sqlSessionFactoryRef= "sqlSessionFactory")
+public class DatabaseConfig {
     @Value("${mybatis.type-aliases-package}")
     private String typeAliasesPackage;
 
@@ -38,6 +37,7 @@ public class MybatisConfig {
 
     @Value("${mybatis.config-location}")
     private String configLocation;
+
 
     /**
      * 写数据源
@@ -48,22 +48,16 @@ public class MybatisConfig {
     @Primary
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.master")
-    public DataSource master() {
+    public DataSource writeDataSource() {
         return new DruidDataSource();
     }
 
     /**
-     * 读数据源,有几个就配置几个
+     * 读数据源
      */
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.slaver1")
-    public DataSource slaver1() {
-        return new DruidDataSource();
-    }
-
-    @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.slaver2")
-    public DataSource slaver2() {
+    @ConfigurationProperties(prefix = "spring.datasource.slaver")
+    public DataSource read() {
         return new DruidDataSource();
     }
 
@@ -92,18 +86,16 @@ public class MybatisConfig {
         return new DataSourceTransactionManager(routingDataSource());
     }
 
-
     /**
      * 设置数据源路由，通过该类中的determineCurrentLookupKey决定使用哪个数据源
      */
     @Bean
     public AbstractRoutingDataSource routingDataSource() {
         DataSourceRouter proxy = new DataSourceRouter();
-        Map<Object, Object> targetDataSources = new HashMap<>(3);
-        targetDataSources.put(DataSourceContextHolder.WRITE, master());
-        targetDataSources.put(DataSourceContextHolder.READ + 1, slaver1());
-        targetDataSources.put(DataSourceContextHolder.READ + 2, slaver2());
-        proxy.setDefaultTargetDataSource(master());
+        Map<Object, Object> targetDataSources = new HashMap<>(2);
+        targetDataSources.put(DataSourceContextHolder.WRITE, writeDataSource());
+        targetDataSources.put(DataSourceContextHolder.READ, read());
+        proxy.setDefaultTargetDataSource(writeDataSource());
         proxy.setTargetDataSources(targetDataSources);
         return proxy;
     }

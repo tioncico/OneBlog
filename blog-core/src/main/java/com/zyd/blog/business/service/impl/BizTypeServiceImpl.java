@@ -6,6 +6,7 @@ import com.zyd.blog.business.entity.Type;
 import com.zyd.blog.business.service.BizTypeService;
 import com.zyd.blog.business.vo.TypeConditionVO;
 import com.zyd.blog.framework.exception.ZhydException;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.BizArticle;
 import com.zyd.blog.persistence.beans.BizType;
 import com.zyd.blog.persistence.mapper.BizArticleMapper;
@@ -40,6 +41,7 @@ public class BizTypeServiceImpl implements BizTypeService {
     private BizArticleMapper bizArticleMapper;
 
     @Override
+    @DBRead
     public PageInfo<Type> findPageBreakByCondition(TypeConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<BizType> list = bizTypeMapper.findPageBreakByCondition(vo);
@@ -51,11 +53,13 @@ public class BizTypeServiceImpl implements BizTypeService {
     }
 
     @Override
+    @DBRead
     public List<Type> listParent() {
         List<BizType> list = bizTypeMapper.listParent();
         return getTypes(list);
     }
 
+    @DBRead
     @Override
     public List<Type> listTypeForMenu() {
         TypeConditionVO vo = new TypeConditionVO();
@@ -66,6 +70,7 @@ public class BizTypeServiceImpl implements BizTypeService {
         return getTypes(entityList);
     }
 
+    @DBRead
     @Override
     public List<Type> listTypeByPosition(String position) {
         Example example = new Example(BizType.class);
@@ -120,6 +125,7 @@ public class BizTypeServiceImpl implements BizTypeService {
     }
 
     @Override
+    @DBRead
     public Type getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         BizType entity = bizTypeMapper.selectByPrimaryKey(primaryKey);
@@ -127,6 +133,7 @@ public class BizTypeServiceImpl implements BizTypeService {
     }
 
     @Override
+    @DBRead
     public List<Type> listAll() {
         TypeConditionVO vo = new TypeConditionVO();
         vo.setPageNumber(1);

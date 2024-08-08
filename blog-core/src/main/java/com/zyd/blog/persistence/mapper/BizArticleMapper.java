@@ -17,7 +17,6 @@ import java.util.List;
  * @date 2018/4/16 16:26
  * @since 1.0
  */
-@Mapper
 public interface BizArticleMapper extends BaseMapper<BizArticle> {
 
     /**

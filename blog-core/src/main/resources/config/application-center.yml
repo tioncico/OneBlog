@@ -5,21 +5,17 @@ spring:
       connection-init-sqls: set names utf8mb4
       driver-class-name: com.mysql.cj.jdbc.Driver
       test-while-idle: false
+    num: 1
     type: com.alibaba.druid.pool.DruidDataSource
-    ### 从数据库数量
-    num: 2
     master:
-      url: jdbc:mysql://${ONEBLOG_DATASOURCE_HOST:114.132.227.93}:${ONEBLOG_DATASOURCE_PORT:3300}/${ONEBLOG_DATASOURCE_DATABASE_NAME:new_blog}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false
+      url: jdbc:mysql://${ONEBLOG_DATASOURCE_HOST:139.129.193.171}:${ONEBLOG_DATASOURCE_PORT:3300}/${ONEBLOG_DATASOURCE_DATABASE_NAME:new_blog}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false
       username: ${ONEBLOG_DATASOURCE_USERNAME:new_blog}
       password: ${ONEBLOG_DATASOURCE_PASSWORD:NLhZcEBS4DkpWTJf}
-    slaver1:
-      url: jdbc:mysql://${ONEBLOG_DATASOURCE_HOST:114.132.227.93}:${ONEBLOG_DATASOURCE_PORT:3300}/${ONEBLOG_DATASOURCE_DATABASE_NAME:new_blog}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false
+    slaver:
+      url: jdbc:mysql://${ONEBLOG_DATASOURCE_HOST:139.129.193.171}:${ONEBLOG_DATASOURCE_PORT:3300}/${ONEBLOG_DATASOURCE_DATABASE_NAME:new_blog}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false
       username: ${ONEBLOG_DATASOURCE_USERNAME:new_blog}
       password: ${ONEBLOG_DATASOURCE_PASSWORD:NLhZcEBS4DkpWTJf}
-    slaver2:
-      url: jdbc:mysql://${ONEBLOG_DATASOURCE_HOST:114.132.227.93}:${ONEBLOG_DATASOURCE_PORT:3300}/${ONEBLOG_DATASOURCE_DATABASE_NAME:new_blog}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false
-      username: ${ONEBLOG_DATASOURCE_USERNAME:new_blog}
-      password: ${ONEBLOG_DATASOURCE_PASSWORD:NLhZcEBS4DkpWTJf}
+
   ####### Redis Config #######
   redis:
     database: ${ONEBLOG_REDIS_DATABASE_INDEX:1}

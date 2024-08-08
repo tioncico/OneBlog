@@ -11,7 +11,6 @@ import com.zyd.blog.business.service.BizArticleService;
 import com.zyd.blog.business.service.SysLinkService;
 import com.zyd.blog.business.service.SysUpdateRecordeService;
 import com.zyd.blog.business.vo.ArticleConditionVO;
-import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.util.ResultUtil;
 import com.zyd.blog.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +74,6 @@ public class RenderController {
      */
     @RequestMapping("/")
     @BussinessLog(value = "进入首页", platform = PlatformEnum.WEB)
-    @DBRead
     public ModelAndView home(ArticleConditionVO vo, Model model) {
         model.addAttribute("url", INDEX_URL);
         loadIndexPage(vo, model);
@@ -160,7 +158,7 @@ public class RenderController {
     /**
      * 标签列表（分页）
      *
-     * @param tagId
+     * @param tagIdSystemLog
      * @param pageNumber
      * @param model
      * @return
@@ -184,7 +182,7 @@ public class RenderController {
      * @param articleId
      * @return
      */
-    @GetMapping("/article/{articleId}")
+    @GetMapping("/article/**/{articleId}")
     @BussinessLog(value = "进入文章[{2}]详情页", platform = PlatformEnum.WEB)
     public ModelAndView article(Model model, @PathVariable("articleId") Long articleId) {
         Article article = bizArticleService.getByPrimaryKey(articleId);

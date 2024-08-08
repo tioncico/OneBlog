@@ -16,7 +16,7 @@
             <div class="scrolltext">
                 <ul class="list-unstyled" id="notice-box">
                     <li class="scrolltext-title">
-                        <a href="javascript:void(0)" rel="bookmark">本站正式启用新域名:<a href="https:/www.zhyd.me" target="_blank"><strong>https:/www.zhyd.me</strong></a></a>
+                        <a href="javascript:void(0)" rel="bookmark">本站正式启用新模板:<a href="https:/www.php20.cn" target="_blank"><strong>https:/www.php20.cn</strong></a></a>
                     </li>
                     <li class="scrolltext-title">
                         <a href="javascript:void(0)" rel="bookmark">活了二十多年，没能为祖国、为人民做点什么，每思及此，伤心欲绝。</a>
@@ -43,7 +43,7 @@
                             <#list recommendedList as item>
                             <div class="item ${(item_index == 0)?string('active','')}">
                                 <a href="${config.siteUrl}/article/${item.id?c}">
-                                    <img src="${item.coverImage}" onerror="this.src='${config.staticWebSite}/img/defaultbanner.png'" alt="${item.title}" title="${item.title}">
+                                    <img src="${item.coverImage}" onerror="this.src='${config.staticWebSite}/img/gobanner.gif'" alt="${item.title}" title="${item.title}">
                                 </a>
                                 <div class="zyd-carousel-caption">${item.title}</div>
                             </div>

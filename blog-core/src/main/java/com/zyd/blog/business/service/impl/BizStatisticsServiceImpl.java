@@ -5,6 +5,7 @@ import com.zyd.blog.business.entity.Article;
 import com.zyd.blog.business.entity.Statistics;
 import com.zyd.blog.business.service.BizArticleService;
 import com.zyd.blog.business.service.BizStatisticsService;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.BizStatistics;
 import com.zyd.blog.persistence.mapper.BizStatisticsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class BizStatisticsServiceImpl implements BizStatisticsService {
      * @return
      */
     @Override
+    @DBRead
     public List<Article> listHotArticle(int pageSize) {
         return articleService.listHotArticle(pageSize);
     }
@@ -47,6 +49,7 @@ public class BizStatisticsServiceImpl implements BizStatisticsService {
      * @return
      */
     @Override
+    @DBRead
     public List<Statistics> listSpider(int pageSize) {
         PageHelper.startPage(1, pageSize);
         List<BizStatistics> entityList = statisticsMapper.listSpider();
@@ -66,6 +69,7 @@ public class BizStatisticsServiceImpl implements BizStatisticsService {
      * @return
      */
     @Override
+    @DBRead
     public List<Statistics> listType(int pageSize) {
         PageHelper.startPage(1, pageSize);
         List<BizStatistics> entityList = statisticsMapper.listType();

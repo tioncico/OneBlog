@@ -11,6 +11,7 @@ import com.zyd.blog.business.enums.PlatformEnum;
 import com.zyd.blog.business.service.SysLogService;
 import com.zyd.blog.business.util.WebSpiderUtils;
 import com.zyd.blog.business.vo.LogConditionVO;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.SysLog;
 import com.zyd.blog.persistence.mapper.SysLogMapper;
 import com.zyd.blog.util.RequestUtil;
@@ -40,6 +41,7 @@ public class SysLogServiceImpl implements SysLogService {
     private SysLogMapper sysLogMapper;
 
     @Override
+    @DBRead
     public PageInfo<Log> findPageBreakByCondition(LogConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<SysLog> list = sysLogMapper.findPageBreakByCondition(vo);
@@ -111,6 +113,7 @@ public class SysLogServiceImpl implements SysLogService {
     }
 
     @Override
+    @DBRead
     public Log getByPrimaryKey(Integer primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         SysLog entity = sysLogMapper.selectByPrimaryKey(primaryKey);

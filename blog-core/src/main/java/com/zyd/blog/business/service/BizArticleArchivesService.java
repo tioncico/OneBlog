@@ -1,5 +1,7 @@
 package com.zyd.blog.business.service;
 
+import com.zyd.blog.framework.mysql.DBRead;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import java.util.Map;
  * @date 2018/4/16 16:26
  * @since 1.0
  */
+@DBRead
 public interface BizArticleArchivesService {
 
     /**

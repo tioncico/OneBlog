@@ -1,5 +1,6 @@
 package com.zyd.blog.business.service;
 
+import com.zyd.blog.framework.mysql.DBWrite;
 import me.zhyd.hunter.config.HunterConfig;
 
 import java.io.PrintWriter;
@@ -11,6 +12,7 @@ import java.io.PrintWriter;
  * @date 2018/8/21 15:35
  * @since 1.8
  */
+@DBWrite
 public interface RemoverService {
 
     void run(Long typeId, HunterConfig config, PrintWriter writer);

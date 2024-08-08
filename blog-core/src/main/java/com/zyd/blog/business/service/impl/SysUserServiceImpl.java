@@ -12,6 +12,7 @@ import com.zyd.blog.business.vo.UserConditionVO;
 import com.zyd.blog.framework.exception.ZhydCommentException;
 import com.zyd.blog.framework.exception.ZhydException;
 import com.zyd.blog.framework.holder.RequestHolder;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.SysUser;
 import com.zyd.blog.persistence.mapper.SysUserMapper;
 import com.zyd.blog.util.IpUtil;
@@ -98,6 +99,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    @DBRead
     public User getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         SysUser sysUser = sysUserMapper.selectByPrimaryKey(primaryKey);
@@ -119,6 +121,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    @DBRead
     public PageInfo<User> findPageBreakByCondition(UserConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<SysUser> sysUsers = sysUserMapper.findPageBreakByCondition(vo);
@@ -159,6 +162,7 @@ public class SysUserServiceImpl implements SysUserService {
      * @return
      */
     @Override
+    @DBRead
     public User getByUserName(String userName) {
         User user = new User(userName, null);
         SysUser sysUser = this.sysUserMapper.selectOne(user.getSysUser());
@@ -210,6 +214,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    @DBRead
     public User getByUuidAndSource(String uuid, String source) {
         if (StringUtils.isEmpty(uuid) || StringUtils.isEmpty(source)) {
             return null;

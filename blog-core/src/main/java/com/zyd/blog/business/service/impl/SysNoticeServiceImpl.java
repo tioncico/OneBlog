@@ -7,6 +7,7 @@ import com.zyd.blog.business.entity.Notice;
 import com.zyd.blog.business.enums.NoticeStatusEnum;
 import com.zyd.blog.business.service.SysNoticeService;
 import com.zyd.blog.business.vo.NoticeConditionVO;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.SysNotice;
 import com.zyd.blog.persistence.mapper.SysNoticeMapper;
 import com.zyd.blog.util.BeanConvertUtil;
@@ -42,6 +43,7 @@ public class SysNoticeServiceImpl implements SysNoticeService {
      * @return
      */
     @Override
+    @DBRead
     public PageInfo<Notice> findPageBreakByCondition(NoticeConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<SysNotice> list = sysNoticeMapper.findPageBreakByCondition(vo);
@@ -62,6 +64,7 @@ public class SysNoticeServiceImpl implements SysNoticeService {
      *
      * @return
      */
+    @DBRead
     @Override
     public List<SysNoticeDTO> listRelease() {
         NoticeConditionVO vo = new NoticeConditionVO();
@@ -101,6 +104,7 @@ public class SysNoticeServiceImpl implements SysNoticeService {
         return sysNoticeMapper.updateByPrimaryKeySelective(entity.getSysNotice()) > 0;
     }
 
+    @DBRead
     @Override
     public Notice getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");

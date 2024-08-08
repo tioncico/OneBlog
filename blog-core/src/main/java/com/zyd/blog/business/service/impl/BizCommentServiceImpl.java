@@ -16,6 +16,8 @@ import com.zyd.blog.business.service.SysConfigService;
 import com.zyd.blog.business.vo.CommentConditionVO;
 import com.zyd.blog.framework.exception.ZhydCommentException;
 import com.zyd.blog.framework.holder.RequestHolder;
+import com.zyd.blog.framework.mysql.DBRead;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.persistence.beans.BizComment;
 import com.zyd.blog.persistence.beans.SysConfig;
 import com.zyd.blog.persistence.mapper.BizCommentMapper;
@@ -69,6 +71,7 @@ public class BizCommentServiceImpl implements BizCommentService {
      * @return
      */
     @Override
+    @DBRead
     public PageInfo<Comment> findPageBreakByCondition(CommentConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<BizComment> list = bizCommentMapper.findPageBreakByCondition(vo);
@@ -86,6 +89,7 @@ public class BizCommentServiceImpl implements BizCommentService {
      * @return
      */
     @Override
+    @DBRead
     public Map<String, Object> list(CommentConditionVO vo) {
         PageInfo pageInfo = findPageBreakByCondition(vo);
         Map<String, Object> map = new HashMap<>();
@@ -333,6 +337,7 @@ public class BizCommentServiceImpl implements BizCommentService {
      */
     @Override
     @RedisCache
+    @DBRead
     public List<Comment> listRecentComment(int pageSize) {
         CommentConditionVO vo = new CommentConditionVO();
         vo.setPageSize(pageSize);
@@ -342,6 +347,7 @@ public class BizCommentServiceImpl implements BizCommentService {
         return getComments(list);
     }
 
+    @DBRead
     private List<Comment> getComments(List<BizComment> list) {
         if (CollectionUtils.isEmpty(list)) {
             return null;
@@ -360,6 +366,7 @@ public class BizCommentServiceImpl implements BizCommentService {
      * @return
      */
     @Override
+    @DBRead
     public List<Comment> listVerifying(int pageSize) {
         CommentConditionVO vo = new CommentConditionVO();
         vo.setPageSize(pageSize);
@@ -430,6 +437,7 @@ public class BizCommentServiceImpl implements BizCommentService {
     }
 
     @Override
+    @DBRead
     public Comment getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         BizComment entity = bizCommentMapper.getById(primaryKey);

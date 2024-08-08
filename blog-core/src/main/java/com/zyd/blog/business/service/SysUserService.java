@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.zyd.blog.business.entity.User;
 import com.zyd.blog.business.entity.UserPwd;
 import com.zyd.blog.business.vo.UserConditionVO;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.framework.object.AbstractService;
 
 import java.util.List;
@@ -58,6 +59,7 @@ public interface SysUserService extends AbstractService<User, Long> {
      * @param userPwd
      * @return
      */
+    @DBWrite
     boolean updatePwd(UserPwd userPwd) throws Exception;
 
 

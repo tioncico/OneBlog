@@ -13,6 +13,7 @@ import com.zyd.blog.business.service.SysLinkService;
 import com.zyd.blog.business.util.LinksUtil;
 import com.zyd.blog.business.vo.LinkConditionVO;
 import com.zyd.blog.framework.exception.ZhydLinkException;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.SysLink;
 import com.zyd.blog.persistence.mapper.SysLinkMapper;
 import com.zyd.blog.util.HtmlUtil;
@@ -48,6 +49,7 @@ public class SysLinkServiceImpl implements SysLinkService {
     private SysConfigService configService;
 
     @Override
+    @DBRead
     public PageInfo<Link> findPageBreakByCondition(LinkConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<SysLink> list = sysLinkMapper.findPageBreakByCondition(vo);
@@ -70,6 +72,7 @@ public class SysLinkServiceImpl implements SysLinkService {
      */
     @Override
     @RedisCache
+    @DBRead
     public List<Link> listOfIndex() {
         LinkConditionVO vo = new LinkConditionVO(1, 1);
         vo.setPageSize(100);
@@ -84,6 +87,7 @@ public class SysLinkServiceImpl implements SysLinkService {
      */
     @Override
     @RedisCache
+    @DBRead
     public List<Link> listOfInside() {
         LinkConditionVO vo = new LinkConditionVO(1, 0);
         vo.setPageSize(100);
@@ -98,6 +102,7 @@ public class SysLinkServiceImpl implements SysLinkService {
      */
     @Override
     @RedisCache
+    @DBRead
     public List<Link> listOfDisable() {
         LinkConditionVO vo = new LinkConditionVO(0, null);
         vo.setPageSize(100);
@@ -113,6 +118,7 @@ public class SysLinkServiceImpl implements SysLinkService {
      */
     @Override
     @RedisCache
+    @DBRead
     public Map<String, List<Link>> listAllByGroup() {
         // 首页连接
         List<Link> listOfIndex = this.listOfIndex();
@@ -209,6 +215,7 @@ public class SysLinkServiceImpl implements SysLinkService {
     }
 
     @Override
+    @DBRead
     public Link getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         SysLink entity = sysLinkMapper.selectByPrimaryKey(primaryKey);
@@ -216,6 +223,7 @@ public class SysLinkServiceImpl implements SysLinkService {
     }
 
     @Override
+    @DBRead
     public Link getOneByUrl(String url) {
         SysLink l = new SysLink();
         l.setUrl(url);

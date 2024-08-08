@@ -17,6 +17,8 @@ import com.zyd.blog.file.entity.VirtualFile;
 import com.zyd.blog.framework.exception.ZhydArticleException;
 import com.zyd.blog.framework.exception.ZhydException;
 import com.zyd.blog.framework.holder.RequestHolder;
+import com.zyd.blog.framework.mysql.DBRead;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.persistence.beans.*;
 import com.zyd.blog.persistence.mapper.*;
 import com.zyd.blog.plugin.file.GlobalFileUploader;
@@ -72,6 +74,7 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @return
      */
     @Override
+    @DBRead
     public PageInfo<Article> findPageBreakByCondition(ArticleConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<BizArticle> list = bizArticleMapper.findPageBreakByCondition(vo);
@@ -86,6 +89,15 @@ public class BizArticleServiceImpl implements BizArticleService {
 
         List<Article> boList = new LinkedList<>();
         Article article = null;
+        ArrayList<Long> idArr = new ArrayList<Long>();
+        for (BizArticle bizArticle : list) {
+            idArr.add(bizArticle.getId());
+        }
+        Map<Long, Long> lookMap = this.subLookNumMap(idArr.toArray(new Long[0]));
+        Map<Long, Long> commentMap = this.subCommentNumMap(idArr.toArray(new Long[0]));
+        Map<Long, Long> loveMap = this.subLoveNumMap(idArr.toArray(new Long[0]));
+
+
         for (BizArticle bizArticle : list) {
             BizArticle tagArticle = tagMap.get(bizArticle.getId());
             if (null == tagArticle) {
@@ -93,7 +105,7 @@ public class BizArticleServiceImpl implements BizArticleService {
             } else {
                 bizArticle.setTags(tagArticle.getTags());
             }
-            this.subquery(bizArticle);
+            this.subquery(lookMap, commentMap, loveMap, bizArticle);
             article = new Article(bizArticle);
             article.setPassword(null);
             boList.add(article);
@@ -110,6 +122,7 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @return
      */
     @Override
+    @DBRead
     public List<Article> listRecommended(int pageSize) {
         ArticleConditionVO vo = new ArticleConditionVO();
         vo.setRecommended(true);
@@ -126,6 +139,7 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @return
      */
     @Override
+    @DBRead
     public List<Article> listRecent(int pageSize) {
         ArticleConditionVO vo = new ArticleConditionVO();
         vo.setPageSize(pageSize);
@@ -141,6 +155,7 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @return
      */
     @Override
+    @DBRead
     public List<Article> listRandom(int pageSize) {
         ArticleConditionVO vo = new ArticleConditionVO();
         vo.setRandom(true);
@@ -159,6 +174,7 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @return
      */
     @Override
+    @DBRead
     public List<Article> listRelatedArticle(int pageSize, Article article) {
         if (null == article) {
             return listRandom(pageSize);
@@ -185,6 +201,7 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @return
      */
     @Override
+    @DBRead
     public Map<String, Article> getPrevAndNextArticles(Date insertTime) {
         insertTime = null == insertTime ? new Date() : insertTime;
         List<BizArticle> entityList = bizArticleMapper.getPrevAndNextArticles(insertTime);
@@ -208,6 +225,7 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @param id
      */
     @Override
+    @DBWrite
     @RedisCache(flush = true)
     public void doPraise(Long id) {
         String ip = IpUtil.getRealIp(RequestHolder.getRequest());
@@ -237,6 +255,7 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @return
      */
     @Override
+    @DBRead
     public boolean isExist(Long id) {
         Integer count = bizArticleMapper.isExist(id);
         return count != null && count > 0;
@@ -251,6 +270,7 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @return
      */
     @Override
+    @DBWrite
     @Transactional(rollbackFor = Exception.class)
     public boolean publish(Article article, Long[] tags, MultipartFile file) {
         if (null == tags || tags.length <= 0) {
@@ -302,6 +322,7 @@ public class BizArticleServiceImpl implements BizArticleService {
     }
 
     @Override
+    @DBWrite
     public void batchUpdateStatus(Long[] ids, boolean status) {
         if (ids == null || ids.length <= 0) {
             return;
@@ -315,6 +336,7 @@ public class BizArticleServiceImpl implements BizArticleService {
      * @return
      */
     @Override
+    @DBRead
     public List<Article> listHotArticle(int pageSize) {
         PageHelper.startPage(1, pageSize);
         List<BizArticle> entityList = bizArticleMapper.listHotArticle();
@@ -329,6 +351,7 @@ public class BizArticleServiceImpl implements BizArticleService {
     }
 
     @Override
+    @DBWrite
     @Transactional(rollbackFor = Exception.class)
     public Article insert(Article entity) {
         Assert.notNull(entity, "Article不可为空！");
@@ -341,6 +364,7 @@ public class BizArticleServiceImpl implements BizArticleService {
     }
 
     @Override
+    @DBWrite
     @Transactional(rollbackFor = Exception.class)
     public boolean removeByPrimaryKey(Long primaryKey) {
         boolean result = bizArticleMapper.deleteByPrimaryKey(primaryKey) > 0;
@@ -363,6 +387,7 @@ public class BizArticleServiceImpl implements BizArticleService {
     }
 
     @Override
+    @DBWrite
     @Transactional(rollbackFor = Exception.class)
     public boolean updateSelective(Article entity) {
         Assert.notNull(entity, "Article不可为空！");
@@ -372,6 +397,7 @@ public class BizArticleServiceImpl implements BizArticleService {
         return bizArticleMapper.updateByPrimaryKeySelective(entity.getBizArticle()) > 0;
     }
 
+    @DBRead
     @Override
     public Article getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
@@ -379,31 +405,61 @@ public class BizArticleServiceImpl implements BizArticleService {
         if (null == entity) {
             return null;
         }
-        this.subquery(entity);
+        ArrayList<Long> idArr = new ArrayList<Long>();
+        idArr.add(entity.getId());
+        Map<Long, Long> lookMap = this.subLookNumMap(idArr.toArray(new Long[0]));
+        Map<Long, Long> commentMap = this.subCommentNumMap(idArr.toArray(new Long[0]));
+        Map<Long, Long> loveMap = this.subLoveNumMap(idArr.toArray(new Long[0]));
+
+        this.subquery(lookMap, commentMap, loveMap, entity);
         return new Article(entity);
     }
 
-    private void subquery(BizArticle entity) {
-        Long primaryKey = entity.getId();
+    private Map<Long, Long> subLookNumMap(Long[] idArr) {
+        List<BizGroupCount> countList = bizArticleLookMapper.countGroupNumByIdArr(idArr);
+        Map<Long, Long> map = new HashMap<>();
+        for (BizGroupCount entity : countList) {
+            if (entity.getId() != null) {
+                map.put(entity.getId(), entity.getNum());
+            }
+        }
+    }
+
+    private Map<Long, Long> subCommentNumMap(Long[] idArr) {
+        List<BizGroupCount> countList = commentMapper.countGroupNumByIdArr(idArr);
+        Map<Long, Long> map = new HashMap<>();
+        for (BizGroupCount entity : countList) {
+            if (entity.getId() != null) {
+                map.put(entity.getId(), entity.getNum());
+            }
+        }
+    }
+
+    private Map<Long, Long> subLoveNumMap(Long[] idArr) {
+        List<BizGroupCount> countList = bizArticleLoveMapper.countGroupNumByIdArr(idArr);
+        Map<Long, Long> map = new HashMap<>();
+        for (BizGroupCount entity : countList) {
+            if (entity.getId() != null) {
+                map.put(entity.getId(), entity.getNum());
+            }
+        }
+        return map;
+    }
+
+    @DBRead
+    private void subquery(Map<Long, Long> lookMap, Map<Long, Long> commentMap, Map<Long, Long> loveMap, BizArticle entity) {
         // 查看的次数
-        BizArticleLook look = new BizArticleLook();
-        look.setArticleId(primaryKey);
-        entity.setLookCount(bizArticleLookMapper.selectCount(look));
+        entity.setLookCount(lookMap.get(entity.getId()).intValue());
 
         // 评论数
-        Example example = new Example(BizComment.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("sid", primaryKey);
-        criteria.andEqualTo("status", CommentStatusEnum.APPROVED.toString());
-        entity.setCommentCount(commentMapper.selectCountByExample(example));
+        entity.setCommentCount(commentMap.get(entity.getId()).intValue());
 
         // 喜欢的次数
-        BizArticleLove love = new BizArticleLove();
-        love.setArticleId(primaryKey);
-        entity.setLoveCount(bizArticleLoveMapper.selectCount(love));
+        entity.setLoveCount(loveMap.get(entity.getId()).intValue());
     }
 
     @Override
+    @DBRead
     public List<Article> listAll() {
         List<BizArticle> entityList = bizArticleMapper.selectAll();
 

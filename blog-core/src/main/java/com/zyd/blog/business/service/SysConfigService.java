@@ -1,6 +1,7 @@
 package com.zyd.blog.business.service;
 
 
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.persistence.beans.SysConfig;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +31,7 @@ public interface SysConfigService {
      *
      * @param configs 所有的配置项
      */
+    @DBWrite
     void saveConfig(Map<String, String> configs);
 
     /**
@@ -38,6 +40,7 @@ public interface SysConfigService {
      * @param key  key
      * @param file 微信收款码
      */
+    @DBWrite
     void saveFile(String key, MultipartFile file);
 
     /**
@@ -46,6 +49,7 @@ public interface SysConfigService {
      * @param key   key
      * @param value value
      */
+    @DBWrite
     void saveConfig(String key, String value);
 
     /**

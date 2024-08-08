@@ -6,6 +6,8 @@ import com.zyd.blog.business.entity.BizAdBo;
 import com.zyd.blog.business.enums.AdPositionEnum;
 import com.zyd.blog.business.service.BizAdService;
 import com.zyd.blog.business.vo.BizAdConditionVO;
+import com.zyd.blog.framework.mysql.DBRead;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.persistence.beans.BizAd;
 import com.zyd.blog.persistence.mapper.BizAdMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,7 @@ public class BizAdServiceImpl implements BizAdService {
      * @return
      */
     @Override
+    @DBRead
     public PageInfo<BizAdBo> findPageBreakByCondition(BizAdConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<BizAd> list = bizAdMapper.findPageBreakByCondition(vo);
@@ -53,6 +56,7 @@ public class BizAdServiceImpl implements BizAdService {
     }
 
     @Override
+    @DBRead
     public BizAdBo getByPosition(AdPositionEnum positionEnum) {
         if (null == positionEnum) {
             return null;
@@ -71,6 +75,7 @@ public class BizAdServiceImpl implements BizAdService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @DBWrite
     public BizAdBo insert(BizAdBo entity) {
         Assert.notNull(entity, "BizAd不可为空！");
         entity.setUpdateTime(new Date());
@@ -86,6 +91,7 @@ public class BizAdServiceImpl implements BizAdService {
      * @return
      */
     @Override
+    @DBWrite
     @Transactional(rollbackFor = Exception.class)
     public boolean removeByPrimaryKey(Long primaryKey) {
         return bizAdMapper.deleteByPrimaryKey(primaryKey) > 0;
@@ -98,6 +104,7 @@ public class BizAdServiceImpl implements BizAdService {
      * @return
      */
     @Override
+    @DBWrite
     @Transactional(rollbackFor = Exception.class)
     public boolean updateSelective(BizAdBo entity) {
         Assert.notNull(entity, "BizAd不可为空！");
@@ -112,6 +119,7 @@ public class BizAdServiceImpl implements BizAdService {
      * @return
      */
     @Override
+    @DBRead
     public BizAdBo getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         BizAd entity = bizAdMapper.selectByPrimaryKey(primaryKey);
@@ -124,6 +132,7 @@ public class BizAdServiceImpl implements BizAdService {
      * @return
      */
     @Override
+    @DBRead
     public List<BizAdBo> listAll() {
         List<BizAd> entityList = bizAdMapper.selectAll();
 

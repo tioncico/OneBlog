@@ -43,7 +43,7 @@ function initNavbar() {
 function initArticeMenu() {
     $(function () {
         var $blogContentBody = $('.blog-info-body');
-        var $h = $blogContentBody.find('h2, h3');
+        var $h = $blogContentBody.find('h1,h2, h3');
         var $articleBox = $('.article-module');
         var $articleMenu = $('#article-menu');
         if ($blogContentBody && $blogContentBody[0]) {
@@ -208,12 +208,6 @@ $(function () {
 
     console.group("关于 OneBlog");
     console.log("OneBlog，一个简洁美观、功能强大并且自适应的Java博客\n欢迎进QQ交流群（190886500）");
-    console.groupEnd();
-    console.group("推荐开源");
-    console.log("%c开源不易，在此推一下开源项目！", "color:red;font-size:12px;font-weight:blod");
-    console.log("%c① JustAuth，开箱即用的整合第三方登录的开源组件：https://github.com/justauth/JustAuth", "color:green;font-size:12px;font-weight:blod");
-    console.log("%c② JAP，一款开源的登录认证中间件，支持 Form、 OAuth2.0、OIDC、Http Basic、Digest、Bearer、LDAP、SAML、MFA、SSO 等：https://gitee.com/fujieid/jap", "color:green;font-size:12px;font-weight:blod");
-    console.log("%c欢迎关注、star、推荐", "color:green;font-size:12px;font-weight:blod");
     console.groupEnd();
 
     $('.to-top').toTop({
@@ -388,6 +382,9 @@ $(function () {
                         + '</li>{{/data}}';
                     var html = Mustache.render(tpl, json);
                     $("#notice-box").html(html);
+                    $(".notice-container").show();
+                } else {
+                    $(".notice-container").remove();
                 }
             },
             error: function () {

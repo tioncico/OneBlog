@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.zyd.blog.business.entity.Resources;
 import com.zyd.blog.business.service.SysResourcesService;
 import com.zyd.blog.business.vo.ResourceConditionVO;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.SysResources;
 import com.zyd.blog.persistence.mapper.SysResourceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @param vo
      * @return
      */
+    @DBRead
     @Override
     public PageInfo<Resources> findPageBreakByCondition(ResourceConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
@@ -55,6 +57,7 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
+    @DBRead
     public List<Resources> listUserResources(Map<String, Object> map) {
         List<SysResources> sysResources = resourceMapper.listUserResources(map);
         if (CollectionUtils.isEmpty(sysResources)) {
@@ -94,6 +97,7 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
+    @DBRead
     public List<Resources> listUrlAndPermission() {
         List<SysResources> sysResources = resourceMapper.listUrlAndPermission();
         return getResources(sysResources);
@@ -105,6 +109,7 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
+    @DBRead
     public List<Resources> listAllAvailableMenu() {
         List<SysResources> sysResources = resourceMapper.listAllAvailableMenu();
         return getResources(sysResources);
@@ -117,6 +122,7 @@ public class SysResourcesServiceImpl implements SysResourcesService {
      * @return
      */
     @Override
+    @DBRead
     public List<Resources> listByUserId(Long userId) {
         List<SysResources> sysResources = resourceMapper.listByUserId(userId);
         return getResources(sysResources);
@@ -149,6 +155,7 @@ public class SysResourcesServiceImpl implements SysResourcesService {
         return resourceMapper.updateByPrimaryKeySelective(entity.getSysResources()) > 0;
     }
 
+    @DBRead
     @Override
     public Resources getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
@@ -157,11 +164,13 @@ public class SysResourcesServiceImpl implements SysResourcesService {
     }
 
     @Override
+    @DBRead
     public List<Resources> listAll() {
         List<SysResources> sysResources = resourceMapper.selectAll();
         return getResources(sysResources);
     }
 
+    @DBRead
     private List<Resources> getResources(List<SysResources> sysResources) {
         if (CollectionUtils.isEmpty(sysResources)) {
             return null;

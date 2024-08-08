@@ -2,6 +2,7 @@ package com.zyd.blog.business.service;
 
 
 import com.zyd.blog.business.entity.ArticleTags;
+import com.zyd.blog.framework.mysql.DBWrite;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @date 2018/4/16 16:26
  * @since 1.0
  */
+@DBWrite
 public interface BizArticleTagsService {
 
     int removeByArticleId(Long articleId);

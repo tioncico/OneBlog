@@ -2,6 +2,7 @@ package com.zyd.blog.business.service;
 
 
 import com.zyd.blog.business.entity.RoleResources;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.framework.object.AbstractService;
 
 /**
@@ -21,6 +22,7 @@ public interface SysRoleResourcesService extends AbstractService<RoleResources, 
      * @param roleId
      * @param resourcesId
      */
+    @DBWrite
     void addRoleResources(Long roleId, String resourcesId);
 
     /**
@@ -28,5 +30,6 @@ public interface SysRoleResourcesService extends AbstractService<RoleResources, 
      *
      * @param roleId
      */
+    @DBWrite
     void removeByRoleId(Long roleId);
 }

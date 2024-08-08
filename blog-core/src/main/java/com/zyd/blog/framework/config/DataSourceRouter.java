@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
-import java.util.Random;
-
 public class DataSourceRouter extends AbstractRoutingDataSource {
 
 
@@ -21,17 +19,13 @@ public class DataSourceRouter extends AbstractRoutingDataSource {
     protected Object determineCurrentLookupKey() {
         String typeKey = DataSourceContextHolder.getDbType();
         if (typeKey == DataSourceContextHolder.WRITE) {
-            System.out.println("使用了写库");
-            System.out.println(typeKey);
+//            System.out.println("使用了写库");
             log.info("使用了写库");
             return typeKey;
         }
-        //随机1-num的随机数
-        Random rand = new Random();
-        int randomNumber = rand.nextInt(num) + 1;
         //使用随机数决定使用哪个读库
-        log.info("使用了读库" + randomNumber);
-        System.out.println("使用了读库" + randomNumber);
-        return DataSourceContextHolder.READ + randomNumber;
+        log.info("使用了读库");
+//        System.out.println("使用了读库");
+        return DataSourceContextHolder.READ;
     }
 }

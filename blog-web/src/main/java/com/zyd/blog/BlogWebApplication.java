@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication
 @ServletComponentScan
-@EnableTransactionManagement
+@EnableTransactionManagement(order = 10)
 @EnableBraumConfiguration
 public class BlogWebApplication {
 

@@ -2,8 +2,8 @@
 <#setting number_format="#">
 <@header>
     <link href="https://cdn.jsdelivr.net/npm/simplemde@1.11.2/dist/simplemde.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/github-markdown-css@2.10.0/github-markdown.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/github.min.css" rel="stylesheet">
+<#--    <link href="https://cdn.jsdelivr.net/npm/github-markdown-css@2.10.0/github-markdown.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/tomorrow-night-bright.min.css">
     <style>
         .CodeMirror, .CodeMirror-scroll {
             min-height: 130px;
@@ -81,10 +81,12 @@
 <@chooseImgModal></@chooseImgModal>
 <@footer>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/lib/highlight.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/simplemde@1.11.2/dist/simplemde.min.js"></script>
     <script type="text/javascript" src="/assets/js/inline-attachment.js"></script>
     <script type="text/javascript" src="/assets/js/codemirror.inline-attachment.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+
     <script>
         var op = {
             id: "contentMd",

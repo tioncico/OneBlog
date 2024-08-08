@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import com.zyd.blog.business.entity.Page;
 import com.zyd.blog.business.service.BizPageService;
 import com.zyd.blog.business.vo.PageConditionVO;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.BizPage;
 import com.zyd.blog.persistence.mapper.BizPageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,7 @@ public class BizPageServiceImpl implements BizPageService {
      * @return
      */
     @Override
+    @DBRead
     public PageInfo<Page> findPageBreakByCondition(PageConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<BizPage> list = bizPageMapper.findPageBreakByCondition(vo);
@@ -60,6 +62,7 @@ public class BizPageServiceImpl implements BizPageService {
     }
 
     @Override
+    @DBRead
     public Page getByUrl(String url) {
         if (StringUtils.isEmpty(url)) {
             return null;
@@ -120,6 +123,7 @@ public class BizPageServiceImpl implements BizPageService {
      * @return
      */
     @Override
+    @DBRead
     public Page getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         BizPage entity = bizPageMapper.selectByPrimaryKey(primaryKey);

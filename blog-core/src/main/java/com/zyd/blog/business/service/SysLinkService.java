@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.zyd.blog.business.entity.Link;
 import com.zyd.blog.business.vo.LinkConditionVO;
 import com.zyd.blog.framework.exception.ZhydLinkException;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.framework.object.AbstractService;
 
 import java.util.List;
@@ -60,5 +61,6 @@ public interface SysLinkService extends AbstractService<Link, Long> {
      * @param link
      * @return
      */
+    @DBWrite
     boolean autoLink(Link link) throws ZhydLinkException;
 }

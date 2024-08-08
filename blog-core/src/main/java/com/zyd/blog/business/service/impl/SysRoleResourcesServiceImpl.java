@@ -3,6 +3,7 @@ package com.zyd.blog.business.service.impl;
 import com.zyd.blog.business.entity.RoleResources;
 import com.zyd.blog.business.service.SysRoleResourcesService;
 import com.zyd.blog.framework.holder.RequestHolder;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.SysRoleResources;
 import com.zyd.blog.persistence.mapper.SysRoleResourcesMapper;
 import com.zyd.blog.util.IpUtil;
@@ -68,6 +69,7 @@ public class SysRoleResourcesServiceImpl implements SysRoleResourcesService {
     }
 
     @Override
+    @DBRead
     public RoleResources getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         SysRoleResources sysRoleResources = resourceMapper.selectByPrimaryKey(primaryKey);
@@ -75,11 +77,13 @@ public class SysRoleResourcesServiceImpl implements SysRoleResourcesService {
     }
 
     @Override
+    @DBRead
     public List<RoleResources> listAll() {
         List<SysRoleResources> sysRoleResources = resourceMapper.selectAll();
         return getRoleResources(sysRoleResources);
     }
 
+    @DBRead
     private List<RoleResources> getRoleResources(List<SysRoleResources> sysRoleResources) {
         if (CollectionUtils.isEmpty(sysRoleResources)) {
             return null;

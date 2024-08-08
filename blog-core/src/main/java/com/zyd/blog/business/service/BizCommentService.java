@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.zyd.blog.business.entity.Comment;
 import com.zyd.blog.business.vo.CommentConditionVO;
 import com.zyd.blog.framework.exception.ZhydCommentException;
+import com.zyd.blog.framework.mysql.DBRead;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.framework.object.AbstractService;
 
 import java.util.List;
@@ -19,10 +21,12 @@ import java.util.Map;
  * @date 2018/4/16 16:26
  * @since 1.0
  */
+@DBWrite
 public interface BizCommentService extends AbstractService<Comment, Long> {
-
+    @DBRead
     PageInfo<Comment> findPageBreakByCondition(CommentConditionVO vo);
 
+    @DBRead
     Map<String, Object> list(CommentConditionVO vo);
 
     /**
@@ -39,6 +43,7 @@ public interface BizCommentService extends AbstractService<Comment, Long> {
      * @param comment
      * @return
      */
+    @DBWrite
     Comment comment(Comment comment) throws ZhydCommentException;
 
     /**
@@ -47,6 +52,7 @@ public interface BizCommentService extends AbstractService<Comment, Long> {
      * @param pageSize
      * @return
      */
+    @DBRead
     List<Comment> listRecentComment(int pageSize);
 
     /**
@@ -55,6 +61,7 @@ public interface BizCommentService extends AbstractService<Comment, Long> {
      * @param pageSize
      * @return
      */
+    @DBRead
     List<Comment> listVerifying(int pageSize);
 
     /**
@@ -62,6 +69,7 @@ public interface BizCommentService extends AbstractService<Comment, Long> {
      *
      * @param id
      */
+    @DBWrite
     void doSupport(Long id);
 
     /**
@@ -69,5 +77,6 @@ public interface BizCommentService extends AbstractService<Comment, Long> {
      *
      * @param id
      */
+    @DBWrite
     void doOppose(Long id);
 }

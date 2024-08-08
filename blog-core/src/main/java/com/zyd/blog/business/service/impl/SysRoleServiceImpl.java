@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.zyd.blog.business.entity.Role;
 import com.zyd.blog.business.service.SysRoleService;
 import com.zyd.blog.business.vo.RoleConditionVO;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.SysRole;
 import com.zyd.blog.persistence.mapper.SysRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
+    @DBRead
     public PageInfo<Role> findPageBreakByCondition(RoleConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<SysRole> sysRoles = roleMapper.findPageBreakByCondition(vo);

@@ -4,6 +4,7 @@ package com.zyd.blog.business.service;
 import com.github.pagehelper.PageInfo;
 import com.zyd.blog.business.entity.Article;
 import com.zyd.blog.business.vo.ArticleConditionVO;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.framework.object.AbstractService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -81,6 +82,7 @@ public interface BizArticleService extends AbstractService<Article, Long> {
      *
      * @param id
      */
+    @DBWrite
     void doPraise(Long id);
 
     /**
@@ -100,6 +102,7 @@ public interface BizArticleService extends AbstractService<Article, Long> {
      * @param file
      * @return
      */
+    @DBWrite
     boolean publish(Article article, Long[] tags, MultipartFile file);
 
     /**
@@ -107,6 +110,7 @@ public interface BizArticleService extends AbstractService<Article, Long> {
      *
      * @return
      */
+    @DBWrite
     boolean updateTopOrRecommendedById(String type, Long id);
 
     /**
@@ -115,6 +119,7 @@ public interface BizArticleService extends AbstractService<Article, Long> {
      * @param ids
      * @param status
      */
+    @DBWrite
     void batchUpdateStatus(Long[] ids, boolean status);
 
 }

@@ -2,6 +2,8 @@ package com.zyd.blog.business.service.impl;
 
 import com.zyd.blog.business.entity.ArticleLook;
 import com.zyd.blog.business.service.BizArticleLookService;
+import com.zyd.blog.framework.mysql.DBRead;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.persistence.mapper.BizArticleLookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class BizArticleLookServiceImpl implements BizArticleLookService {
     private BizArticleLookMapper bizArticleLookMapper;
 
     @Override
+    @DBWrite
     @Transactional(rollbackFor = Exception.class)
     public ArticleLook insert(ArticleLook entity) {
         Assert.notNull(entity, "ArticleLook不可为空！");

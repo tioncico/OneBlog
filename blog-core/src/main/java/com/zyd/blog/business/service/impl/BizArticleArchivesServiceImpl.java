@@ -2,6 +2,8 @@ package com.zyd.blog.business.service.impl;
 
 import com.zyd.blog.business.entity.ArticleArchives;
 import com.zyd.blog.business.service.BizArticleArchivesService;
+import com.zyd.blog.framework.mysql.DBRead;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.persistence.beans.BizArticleArchives;
 import com.zyd.blog.persistence.mapper.BizArticleArchivesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,7 @@ public class BizArticleArchivesServiceImpl implements BizArticleArchivesService 
     private BizArticleArchivesMapper articleArchivesMapper;
 
     @Override
+    @DBRead
     public Map<String, List> listArchives() {
         List<BizArticleArchives> articleArchivesList = articleArchivesMapper.listArchives();
         if (CollectionUtils.isEmpty(articleArchivesList)) {
@@ -57,6 +60,7 @@ public class BizArticleArchivesServiceImpl implements BizArticleArchivesService 
         return resultMap;
     }
 
+    @DBWrite
     private <T> void addToList(List<T> list, T value, Map<String, List> map, String key) {
         if (null == list) {
             // 初始化后保存

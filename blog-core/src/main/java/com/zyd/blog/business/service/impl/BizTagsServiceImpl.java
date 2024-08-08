@@ -7,6 +7,7 @@ import com.zyd.blog.business.entity.Tags;
 import com.zyd.blog.business.service.BizTagsService;
 import com.zyd.blog.business.vo.TagsConditionVO;
 import com.zyd.blog.framework.exception.ZhydException;
+import com.zyd.blog.framework.mysql.DBRead;
 import com.zyd.blog.persistence.beans.BizArticleTags;
 import com.zyd.blog.persistence.beans.BizTags;
 import com.zyd.blog.persistence.mapper.BizArticleTagsMapper;
@@ -40,6 +41,7 @@ public class BizTagsServiceImpl implements BizTagsService {
     private BizArticleTagsMapper bizArticleTagsMapper;
 
     @Override
+    @DBRead
     public PageInfo<Tags> findPageBreakByCondition(TagsConditionVO vo) {
         PageHelper.startPage(vo.getPageNumber(), vo.getPageSize());
         List<BizTags> list = bizTagsMapper.findPageBreakByCondition(vo);
@@ -51,6 +53,7 @@ public class BizTagsServiceImpl implements BizTagsService {
     }
 
     @Override
+    @DBRead
     public Tags getByName(String name) {
         if (StringUtils.isEmpty(name)) {
             return null;
@@ -103,6 +106,7 @@ public class BizTagsServiceImpl implements BizTagsService {
     }
 
     @Override
+    @DBRead
     public Tags getByPrimaryKey(Long primaryKey) {
         Assert.notNull(primaryKey, "PrimaryKey不可为空！");
         BizTags entity = bizTagsMapper.selectByPrimaryKey(primaryKey);
@@ -111,12 +115,14 @@ public class BizTagsServiceImpl implements BizTagsService {
 
     @Override
     @RedisCache
+    @DBRead
     public List<Tags> listAll() {
         List<BizTags> entityList = bizTagsMapper.selectAll();
 
         return getTags(entityList);
     }
 
+    @DBRead
     private List<Tags> getTags(List<BizTags> entityList) {
         if (CollectionUtils.isEmpty(entityList)) {
             return null;

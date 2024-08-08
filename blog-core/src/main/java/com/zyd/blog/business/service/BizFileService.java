@@ -4,6 +4,7 @@ package com.zyd.blog.business.service;
 import com.github.pagehelper.PageInfo;
 import com.zyd.blog.business.entity.File;
 import com.zyd.blog.business.vo.FileConditionVO;
+import com.zyd.blog.framework.mysql.DBWrite;
 import com.zyd.blog.framework.object.AbstractService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +20,9 @@ public interface BizFileService extends AbstractService<File, Long> {
 
     File selectFileByPathAndUploadType(String filePath, String uploadType);
 
+    @DBWrite
     void remove(Long[] ids);
 
+    @DBWrite
     int upload(MultipartFile[] file);
 }
