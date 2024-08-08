@@ -2,6 +2,7 @@ package com.zyd.blog.util;
 
 import org.jsoup.Jsoup;
 
+import org.jsoup.safety.Safelist;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

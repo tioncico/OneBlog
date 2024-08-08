@@ -423,6 +423,7 @@ public class BizArticleServiceImpl implements BizArticleService {
                 map.put(entity.getId(), entity.getNum());
             }
         }
+        return map;
     }
 
     private Map<Long, Long> subCommentNumMap(Long[] idArr) {
@@ -433,6 +434,7 @@ public class BizArticleServiceImpl implements BizArticleService {
                 map.put(entity.getId(), entity.getNum());
             }
         }
+        return map;
     }
 
     private Map<Long, Long> subLoveNumMap(Long[] idArr) {
